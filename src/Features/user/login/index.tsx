@@ -1,6 +1,21 @@
-import React  from 'react';
+
+import React, { useEffect } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { SignJWT } from "jose";
+
+// import { setToken } from "../auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import { SHA256 } from "crypto-js";
+import { useAppSelector } from '../../../hooks/reduxHooks';
 import './index.css'
 const Login: React.FC = () => {
+    interface LoginForm {
+        email: string;
+        password: string;
+      }
+    // const users = useAppSelector((state) => state.users.users);
+    const user = useAppSelector((state)=>state.userRegister.users)
+    console.log(user)
     return (
       <div className="main-bg">
       <div className="login-container text-c animated flipInX">
