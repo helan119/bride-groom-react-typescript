@@ -3,5 +3,4 @@ export interface userRegisterType{
     emailaddress:string;
     phnnumber:number;
     password:string;
-    isadmin: boolean;
 }

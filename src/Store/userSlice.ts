@@ -19,7 +19,7 @@ export const userSlice = createSlice({
       addRegisteredUser: (state, action: PayloadAction<userRegisterType>) => {
         let hashedPassword:any
         if (action.payload.password) {
-          hashedPassword = SHA256(action.payload.password);
+          hashedPassword = SHA256(action.payload.password).toString();
         }
   
         state.users.push({
@@ -27,7 +27,7 @@ export const userSlice = createSlice({
             emailaddress: action.payload.emailaddress,
             phnnumber:action.payload.phnnumber,
             password:  hashedPassword,
-            isadmin:false
+           
          
          
    
