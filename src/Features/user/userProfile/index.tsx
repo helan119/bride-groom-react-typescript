@@ -4,9 +4,14 @@ import { useAppDispatch } from "../../../hooks/reduxHooks";
 import {UserProfileForm }from "../../../types/UserProfile"
 import {addUsersProfile} from "../../../Store/userProfileSlice"
 import { resetAuth } from "../../../Store/authSlice";
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import "./index.css"
 const UserProfilePage: React.FC = () => {
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const location = useLocation()
+    const userData = location.state?.user ;
     const {
         register,
         handleSubmit,
@@ -14,15 +19,12 @@ const UserProfilePage: React.FC = () => {
         formState: { errors },
       } = useForm< UserProfileForm>();
       const dispatch = useAppDispatch();
-      const onSubmit: SubmitHandler<UserProfileForm> = data =>{
-        alert("hi")
-        console.log(data)
-        dispatch(addUsersProfile(data))
-       
-        // navigation("/login");
-      }
-      const [previewImage, setPreviewImage] = useState<string | null>(null);
+      const navigation =useNavigate();
 
+      const onSubmit: SubmitHandler<UserProfileForm> = data =>{
+        dispatch(addUsersProfile(data))
+      }
+     //image upload
       const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
     
@@ -42,6 +44,7 @@ const UserProfilePage: React.FC = () => {
       //
       const handleLOgOut= () => {
         dispatch(resetAuth())
+        navigation("/Login")
       }
     return(
     <>
@@ -76,6 +79,15 @@ const UserProfilePage: React.FC = () => {
                     <button className="btn btn-primary" type="button" onClick={handleLOgOut}>LogOut</button>
                 </div>
             </div>
+            <div className="card-header">Account Details</div>
+            <div className="card mb-4 mb-xl-0">
+            <div className="card-body text-center">
+            <label className="small mb-1" >Full Name :  {userData.fullname}</label>
+            <label className="small mb-1" >Email Adrress :   {userData.emailaddress}</label>
+            <label className="small mb-1" >Phone Number :   {userData.phnnumber}</label>
+           
+</div>
+</div>
         </div>
         <div className="col-xl-8">
             {/* <!-- Account details card--> */}
@@ -85,7 +97,7 @@ const UserProfilePage: React.FC = () => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         {/* <!-- Form Group (username)--> */}
                         <div className="mb-3">
-                            <label className="small mb-1" >Username (how your name will appear to other users on the site)</label>
+                            <label className="small mb-1" >Username </label>
                             <input {...register("username")} className="form-control" id="inputUsername" type="text" placeholder="Enter your username"/>
                         </div>
                         {/* <!-- Form Row--> */}
@@ -93,12 +105,12 @@ const UserProfilePage: React.FC = () => {
                             {/* <!-- Form Group (first name)--> */}
                             <div className="col-md-6">
                                 <label className="small mb-1" >Height</label>
-                                <input {...register("height")} className="form-control" id="inputFirstName" type="text" placeholder="Enter your first name"/>
+                                <input {...register("height")} className="form-control" id="inputFirstName" type="text" placeholder="Enter your height"/>
                             </div>
                             {/* <!-- Form Group (last name)--> */}
                             <div className="col-md-6">
                                 <label className="small mb-1" >Weight</label>
-                                <input {...register("weight")} className="form-control" id="inputLastName" type="text" placeholder="Enter your last name" />
+                                <input {...register("weight")} className="form-control" id="inputLastName" type="text" placeholder="Enter your weight" />
                             </div>
                         </div>
                         {/* <!-- Form Row        --> */}
@@ -106,36 +118,27 @@ const UserProfilePage: React.FC = () => {
                             {/* <!-- Form Group (organization name)--> */}
                             <div className="col-md-6">
                                 <label className="small mb-1" >city</label>
-                                <input  {...register("city")} className="form-control" id="inputOrgName" type="text" placeholder="Enter your organization name" />
+                                <input  {...register("city")} className="form-control" id="inputOrgName" type="text" placeholder="Enter your city" />
                             </div>
                             {/* <!-- Form Group (location)--> */}
                             <div className="col-md-6">
                                 <label className="small mb-1" >State</label>
-                                <input {...register("states")} className="form-control" id="inputLocation" type="text" placeholder="Enter your location"/>
+                                <input {...register("states")} className="form-control" id="inputLocation" type="text" placeholder="Enter your state"/>
                             </div>
                         </div>
                         {/* <!-- Form Group (email address)--> */}
                         <div className="mb-3">
                             <label className="small mb-1" >Address</label>
-                            <input {...register("address")} className="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" />
+                            <input {...register("address")} className="form-control" id="inputEmailAddress" type="text" placeholder="Enter your  address" />
                         </div>
                         {/* <!-- Form Row--> */}
                         <div className="row gx-3 mb-3">
                         <label className="small mb-1" >Family Information</label>
-                            <textarea {...register("information")} className="form-control" id="inputEmailAddress"  placeholder="Enter your email address"/>
-                            {/* <!-- Form Group (phone number)--> */}
-                            {/* <div className="col-md-6">
-                                <label className="small mb-1" >Phone number</label>
-                                <input className="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="555-123-4567"/>
-                            </div> */}
-                            {/* <!-- Form Group (birthday)--> */}
-                            {/* <div className="col-md-6">
-                                <label className="small mb-1" >Birthday</label>
-                                <input className="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your birthday" value="06/10/1988"/>
-                            </div> */}
+                            <textarea {...register("information")} className="form-control"   placeholder="Enter your familyinformations"/>
+                            
                         </div>
                         {/* <!-- Save changes button--> */}
-                        <button className="btn btn-primary" type="button">Save changes</button>
+                        <button className="btn btn-primary" type="submit">Save changes</button>
                     </form>
                 </div>
             </div>

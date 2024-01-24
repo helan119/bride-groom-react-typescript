@@ -9,8 +9,14 @@ import { SHA256 } from "crypto-js";
 import { setToken } from "../../../Store/authSlice";
 import { useAppSelector,useAppDispatch } from '../../../hooks/reduxHooks';
 import { LoginForm } from "../../../types/UserLogin";
+import { resetUsers } from "../../../Store/userSlice";
 import './index.css'
 const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigate();
+  const users = useAppSelector((state) => state.userRegister.users);
+
+ 
     
       const {
         register,
@@ -19,58 +25,61 @@ const Login: React.FC = () => {
         formState: { errors },
       } = useForm<LoginForm>();
     
-      const dispatch = useAppDispatch();
+      // useEffect(()=>{
+      //   dispatch(resetUsers())
+      // },[])
     
-      const auth = useAppSelector((state) => state.auth);
-      const users = useAppSelector((state) => state.userRegister.users);
-    
-      const navigation = useNavigate();
-    
+    //function for generating a token
       const generateToken = async (emailaddress: string) => {
-        alert('hlo')
-        console.log(emailaddress)
         // For demo purposes, create a token on the frontend
         const secretKey = import.meta.env.VITE_SECRET_KEY; // Replace with your actual secret key
-        console.log(secretKey)
         const expirationTime = "1h"; // Token expiration time
-    
         const secret = new TextEncoder().encode(secretKey);
         const alg = "HS256";
-    
         const jwt = await new SignJWT({ emailaddress: emailaddress, isadmin: false })
           .setProtectedHeader({ alg })
           .setIssuedAt()
           .setExpirationTime(expirationTime)
           .sign(secret);
-    
         return jwt;
       };
-    
+    //form handiling for submiting the user login data
       const onSubmit: SubmitHandler<LoginForm> = async (data) => {
-        console.log(data)
-        const selectedUser = users.filter((user) => user.emailaddress === data.email);
-        console.log(selectedUser)
+        const selectedUser = users.filter((user) => user.emailaddress === data.email);//for cheking user email is there
         if (selectedUser && selectedUser.length > 0) {
           // User found. Now check the password.
           let user = selectedUser[0];
-console.log(user)
+          let adminUser=selectedUser
+          //user and admin can login from the same login cheking where the loged user is admin or not if it admin login to the user listing page
+          
+if(!(adminUser[0].emailaddress =="admin123@gmail.com")){
           const hashedEnteredPassword = SHA256(data.password).toString();
           console.log(hashedEnteredPassword)
-    
+    if((user.password !==hashedEnteredPassword)||(adminUser[0].password !==data.password)||(user.emailaddress !==data.email)||(adminUser[0].emailaddress !=="admin123@gmail.com")){
+      alert("invalide password or email address")
+    }
           if (user.password === hashedEnteredPassword) {
-            // Verification successful.
-            // redirect to home.
+           
             const token = await generateToken(data.email);
-            console.log(token)
             dispatch(setToken(token));
-            navigation("/UserProfilePage");
+             // Verification successful.
+            // redirect to home. 
+            navigation("/UserProfilePage",{ state: { user } });
+            
           } else {
             setError("password", {
               type: "manual",
               message: "Incorrect password",
             });
           }
-        } else {
+        } else if(adminUser[0].password ===data.password ){
+         
+          const token = await generateToken(data.email);
+          console.log(token)
+          dispatch(setToken(token));
+          navigation("/RegistredUderListing")
+
+        }} else {
           setError("email", {
             type: "manual",
             message: "User not found",
@@ -78,12 +87,12 @@ console.log(user)
         }
       };
     
-      useEffect(() => {
-        if (auth.token) {
-          //Token exists. Redirect to home
-          navigation("/UserProfilePage");
-        }
-      }, [auth.token]);
+      // useEffect(() => {
+      //   if (auth.token) {
+      //     //Token exists. Redirect to home
+      //     navigation("/UserProfilePage");
+      //   }
+      // }, [auth.token]);
     
 
    
@@ -93,12 +102,12 @@ console.log(user)
               <div>
                   <h1 className="logo-badge text-whitesmoke"><span className="fa fa-user-circle"></span></h1>
               </div>
-                  <h3 className="text-whitesmoke">Sign In Template</h3>
+                 
                   <p className="text-whitesmoke">Sign In</p>
               <div className="container-content">
                   <form  onSubmit={handleSubmit(onSubmit)} className="margin-t">
                       <div className="form-group">
-                          <input {...register("email")} type="text" className="form-control" placeholder="Username" required/>
+                          <input {...register("email")} type="text" className="form-control" placeholder="User email " required/>
                       </div>
                       <div className="form-group">
                           <input {...register("password")} type="password" className="form-control" placeholder="*****" required/>
@@ -107,9 +116,9 @@ console.log(user)
       
                       <a className="text-darkyellow" href="#"><small>Forgot your password?</small></a>
                       <p className="text-whitesmoke text-center"><small>Do not have an account?</small></p>
-                      <a className="text-darkyellow" href="#"><small>Sign Up</small></a>
+                      <a className="text-darkyellow" href="/"><small>Register For Free</small></a>
                   </form>
-                  <p className="margin-t text-whitesmoke"><small> Your Name &copy; 2018</small> </p>
+                  <p className="margin-t text-whitesmoke"><small> Your Name &copy; 2024</small> </p>
               </div>
           </div>
 </div>

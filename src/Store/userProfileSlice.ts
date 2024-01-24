@@ -18,7 +18,7 @@ export const userprofileSlice = createSlice({
     //   },
       addUsersProfile: (state, action: PayloadAction<UserProfileForm>) => {
         
-  
+ 
         state.usersProfile.push({
             username: action.payload.username,
             height: action.payload.height,

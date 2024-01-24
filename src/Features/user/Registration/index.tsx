@@ -9,22 +9,16 @@ import { userRegisterType } from '../../../types/UserRegistration' //importing t
 import { addRegisteredUser } from '../../../Store/userSlice'; //importing redux store for registered user
 import "./index.css"
 const RegistrationPage: React.FC = () => {
-  const users = useAppSelector((state) => state.userRegister.users);
+  const users = useAppSelector((state) => state.userRegister.users);//calling the register users list from the redux
+  const dispatch = useAppDispatch();
  
-//validations
+//using yup for validation purpuses all fields are given as required
 const validationSchema = yup.object().shape({
     fullname:yup.string().required("Full Name is required"),
     emailaddress:yup.string().email('Invalid email address')
     .required('Email is required'),
-    
     phnnumber:yup.number().required("Phone is a required field"),
     password:yup.string().required("password is required field"),
-  
-   
-   
-   
-  
-   
    
   });
 
@@ -34,22 +28,21 @@ const validationSchema = yup.object().shape({
     handleSubmit,
     formState: { errors },
   } = useForm<userRegisterType>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema),//validationSchema give to the resolver.use form hook  
   });
-      const dispatch = useAppDispatch();
-      const onSubmit: SubmitHandler<userRegisterType> = data =>{
-        console.log(data)
-        const selectedUserEmail = users.filter((user) => user.emailaddress == data.emailaddress)
-        console.log(selectedUserEmail)
-if(selectedUserEmail.length>0){
-  alert("email Id already exist try new one")
-}
-else{
+
+    //function call for form submition 
+ const onSubmit: SubmitHandler<userRegisterType> = data =>{
+      const selectedUserEmail = users.filter((user) => user.emailaddress == data.emailaddress)//filter out the login user details with the mail
+    
+    //checking whether the email id is already exist if exist an alert pop
+      if(selectedUserEmail.length>0){
+       alert("email Id already exist try new one")
+         }
+         //other wise the data will store 
+     else{
   dispatch(addRegisteredUser(data));
-}
-        
-       
-        // navigation("/login");
+     }
       }
     return(
     <>
@@ -73,11 +66,11 @@ else{
            
        
         <div className="form-submit">
-            <input type="submit" name="submit" id="submit" className="submit" value="Register Free" />
+            <input type="submit" name="submit" id="submit"  className="form-button button-l submit" value="Register Free" />
         </div>
-      
-        </form>
         <h3>Already have an account?<NavLink to='/Login'> Login</NavLink></h3>
+        </form>
+        
 </div>
 
 </div>

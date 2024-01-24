@@ -7,15 +7,21 @@ interface UserRegistrerState{
     users:userRegisterType[];
 }
 const initialState : UserRegistrerState ={
-    users:[ ]
+    users:[
+      {
+        fullname: "admin",
+        emailaddress:"admin123@gmail.com",
+        phnnumber:9867345623,
+        password:"admin@123",
+    } ]
 }
 export const userSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-    //   resetUsers: (state, action: PayloadAction<void>) => {t7
-    //     state = initialState;
-    //   },
+      resetUsers: (state, action: PayloadAction<void>) => {
+        state.users = [];
+      },
       addRegisteredUser: (state, action: PayloadAction<userRegisterType>) => {
         let hashedPassword:any
         if (action.payload.password) {
@@ -45,6 +51,6 @@ export const userSlice = createSlice({
     // },
   });
   
-  export const { addRegisteredUser } = userSlice.actions;
+  export const {resetUsers, addRegisteredUser } = userSlice.actions;
   
   export default userSlice.reducer;
