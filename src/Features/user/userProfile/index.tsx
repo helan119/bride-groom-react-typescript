@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useAppDispatch,useAppSelector } from "../../../hooks/reduxHooks";
+import { useAppDispatch } from "../../../hooks/reduxHooks";
 import {UserProfileForm }from "../../../types/UserProfile"
 import {addUsersProfile} from "../../../Store/userProfileSlice"
 // import { resetAuth } from "../../../Store/authSlice";
@@ -12,7 +12,7 @@ const UserProfilePage: React.FC = () => {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const location = useLocation()
     const userData = location.state?.user ;
-    let token = useAppSelector((state) => state.auth.token);
+    // const token = useAppSelector((state) => state.auth.token);
     const {
         register,
         handleSubmit,
@@ -44,8 +44,8 @@ const UserProfilePage: React.FC = () => {
       };
       //
       const handleLOgOut= () => {
-        // dispatch(resetAuth())
-        token=""
+        // dispatch(resetAuth())//reset the token
+        // token=""
         navigation("/Login")
       }
     return(
