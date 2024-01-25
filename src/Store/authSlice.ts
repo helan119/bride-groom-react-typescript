@@ -12,10 +12,10 @@ export interface authState {
     name: "auth",
     initialState,
     reducers: {
-      resetAuth: (state, action: PayloadAction<void>) => {
+      // resetAuth: (state, action: PayloadAction<void>) => {
       
-        state.token = '';
-      },
+      //   state.token = '';
+      // },
       setToken: (state, action: PayloadAction<string>) => {
         state.token = action.payload;
       },
@@ -23,6 +23,6 @@ export interface authState {
    
   });
   
-  export const { resetAuth, setToken } = authSlice.actions;
+  export const {  setToken } = authSlice.actions;
   
   export default authSlice.reducer;

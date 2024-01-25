@@ -19,9 +19,9 @@ export const userSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-      resetUsers: (state, action: PayloadAction<void>) => {
-        state.users = [];
-      },
+      // resetUsers: (state, action: PayloadAction<void>) => {
+      //   state.users = [];
+      // },
       addRegisteredUser: (state, action: PayloadAction<userRegisterType>) => {
         let hashedPassword:any
         if (action.payload.password) {
@@ -51,6 +51,6 @@ export const userSlice = createSlice({
     // },
   });
   
-  export const {resetUsers, addRegisteredUser } = userSlice.actions;
+  export const { addRegisteredUser } = userSlice.actions;
   
   export default userSlice.reducer;
