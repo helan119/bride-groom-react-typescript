@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { useAppDispatch,useAppSelector } from "../../hooks/reduxHooks";
+
+import {useAppSelector } from "../../hooks/reduxHooks";
 import "./index.css"
-import { userRegisterType } from "../../types/UserRegistration";
 
 const  RegistredUderListing: React.FC=()=>{
     const users = useAppSelector((state) => state.userRegister.users);

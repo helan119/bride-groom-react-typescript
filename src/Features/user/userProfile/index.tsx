@@ -16,7 +16,7 @@ const UserProfilePage: React.FC = () => {
         register,
         handleSubmit,
         setValue,
-        formState: { errors },
+        formState: {  },
       } = useForm< UserProfileForm>();
       const dispatch = useAppDispatch();
       const navigation =useNavigate();

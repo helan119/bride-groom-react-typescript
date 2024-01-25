@@ -13,6 +13,7 @@ export interface authState {
     initialState,
     reducers: {
       resetAuth: (state, action: PayloadAction<void>) => {
+      
         state.token = '';
       },
       setToken: (state, action: PayloadAction<string>) => {

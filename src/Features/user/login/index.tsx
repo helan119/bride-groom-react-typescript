@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SignJWT } from "jose";
 
@@ -9,7 +9,7 @@ import { SHA256 } from "crypto-js";
 import { setToken } from "../../../Store/authSlice";
 import { useAppSelector,useAppDispatch } from '../../../hooks/reduxHooks';
 import { LoginForm } from "../../../types/UserLogin";
-import { resetUsers } from "../../../Store/userSlice";
+
 import './index.css'
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const Login: React.FC = () => {
         register,
         handleSubmit,
         setError,
-        formState: { errors },
+        formState: {  },
       } = useForm<LoginForm>();
     
       // useEffect(()=>{
