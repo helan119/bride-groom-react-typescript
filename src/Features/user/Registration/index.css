@@ -141,7 +141,7 @@ display-flex {
     padding: 60px 0;
     position: relative; }
   
-  .container {
+  .container-register {
     width: 586px;
     background: #fff;
     margin-left: 165px;
@@ -307,10 +307,10 @@ display-flex {
     z-index: 9; }
   
   @media screen and (max-width: 1024px) {
-    .container {
+    .container-register {
       margin: 0 auto; } }
   @media screen and (max-width: 768px) {
-    .container {
+    .container-register {
       width: calc( 100% - 30px);
       max-width: 100%; } }
   @media screen and (max-width: 480px) {
@@ -319,13 +319,13 @@ display-flex {
   
   /*# sourceMappingURL=style.css.map */
   @media screen and (max-width: 1024px) {
-    .container {
+    .container-register {
         margin: 0 auto;
     }
 }
 @media screen and (max-width: 768px) {
     
-    .container {
+  .container-register {
         width: calc( 100% - 30px);
         max-width: 100%;
     }

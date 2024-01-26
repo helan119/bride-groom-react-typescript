@@ -13,9 +13,9 @@ export const userprofileSlice = createSlice({
     name: "usersProfile",
     initialState,
     reducers: {
-    //   resetUsers: (state, action: PayloadAction<void>) => {t7
-    //     state = initialState;
-    //   },
+      resetUsers: (state, action: PayloadAction<void>) => {
+        state.usersProfile = [];
+      },
       addUsersProfile: (state, action: PayloadAction<UserProfileForm>) => {
         
  
@@ -27,13 +27,9 @@ export const userprofileSlice = createSlice({
             states:action.payload.states,
     address:action.payload.address,
     information:action.payload. information,
-    profilePic: ""
+    profilePic: action.payload.profilePic,
          
-         
-   
-         
-      
-         
+        
         });
         
       },
@@ -45,6 +41,6 @@ export const userprofileSlice = createSlice({
     // },
   });
   
-  export const {addUsersProfile} = userprofileSlice.actions;
+  export const { resetUsers,addUsersProfile} = userprofileSlice.actions;
   
   export default userprofileSlice.reducer;

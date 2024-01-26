@@ -22,7 +22,7 @@ const Login: React.FC = () => {
         register,
         handleSubmit,
         setError,
-        formState: {  },
+        formState: {errors  },
       } = useForm<LoginForm>();
     
       // useEffect(()=>{
@@ -55,9 +55,9 @@ const Login: React.FC = () => {
 if(!(adminUser[0].emailaddress =="admin123@gmail.com")){
           const hashedEnteredPassword = SHA256(data.password).toString();
           console.log(hashedEnteredPassword)
-    if((user.password !==hashedEnteredPassword)||(adminUser[0].password !==data.password)||(user.emailaddress !==data.email)||(adminUser[0].emailaddress !=="admin123@gmail.com")){
-      alert("invalide password or email address")
-    }
+    // if((user.password !==hashedEnteredPassword)||(adminUser[0].password !==data.password)||(user.emailaddress !==data.email)||(adminUser[0].emailaddress !=="admin123@gmail.com")){
+    //   alert("invalide password or email address")
+    // }
           if (user.password === hashedEnteredPassword) {
            
             const token = await generateToken(data.email);
@@ -66,12 +66,7 @@ if(!(adminUser[0].emailaddress =="admin123@gmail.com")){
             // redirect to home. 
             navigation("/UserProfilePage",{ state: { user } });
             
-          } else {
-            setError("password", {
-              type: "manual",
-              message: "Incorrect password",
-            });
-          }
+          } 
         } else if(adminUser[0].password ===data.password ){
          
           const token = await generateToken(data.email);
@@ -84,6 +79,12 @@ if(!(adminUser[0].emailaddress =="admin123@gmail.com")){
             type: "manual",
             message: "User not found",
           });
+       
+            setError("password", {
+              type: "manual",
+              message: "Incorrect password",
+            });
+         
         }
       };
     
@@ -107,10 +108,24 @@ if(!(adminUser[0].emailaddress =="admin123@gmail.com")){
               <div className="container-content">
                   <form  onSubmit={handleSubmit(onSubmit)} className="margin-t">
                       <div className="form-group">
-                          <input {...register("email")} type="text" className="form-control" placeholder="User email " required/>
+                          <input  {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Invalid email address",
+              },
+            })} type="text" className="form-control" placeholder="User email " />
                       </div>
+                      {errors.email && <p style={{color:"red"}}>{errors.email.message}</p>}
                       <div className="form-group">
-                          <input {...register("password")} type="password" className="form-control" placeholder="*****" required/>
+                          <input  {...register("password", {
+              required: "Password is required",
+              // minLength: {
+              //   value: 6,
+              //   message: "Password must be at least 6 characters",
+              // },
+            })} type="password" className="form-control" placeholder="*****" />
+             {errors.password && <p style={{color:"red"}}>{errors.password.message}</p>}
                       </div>
                       <button type="submit" className="form-button button-l margin-b">Sign In</button>
       

@@ -49,7 +49,7 @@ const validationSchema = yup.object().shape({
    
     <div className="main">
 
-<div className="container">
+<div className="container-register">
     <form onSubmit={handleSubmit(onSubmit)} className="appointment-form" id="appointment-form">
         <h2>Create a Matrimonial page</h2>
         <div className="form-group-1">
